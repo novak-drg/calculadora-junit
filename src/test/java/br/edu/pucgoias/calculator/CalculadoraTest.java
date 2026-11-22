@@ -1,6 +1,7 @@
 package br.edu.pucgoias.calculator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -159,6 +160,58 @@ class CalculadoraTest {
         @DisplayName("multiplica números decimais e grandes")
         void multipliesDecimalsAndLargeNumbers(double a, double b, double expected) {
             assertEquals(expected, calculator.multiply(a, b), DELTA);
+        }
+    }
+
+    @Nested
+    @DisplayName("Dividir")
+    class Divide {
+
+        @Test
+        @DisplayName("divide dois números positivos")
+        void dividesTwoPositives() {
+            assertEquals(5, calculator.divide(10, 2), DELTA);
+        }
+
+        @Test
+        @DisplayName("positivo dividido por negativo dá negativo")
+        void positiveByNegativeIsNegative() {
+            assertEquals(-5, calculator.divide(10, -2), DELTA);
+            assertEquals(-5, calculator.divide(-10, 2), DELTA);
+        }
+
+        @Test
+        @DisplayName("negativo dividido por negativo dá positivo")
+        void negativeByNegativeIsPositive() {
+            assertEquals(5, calculator.divide(-10, -2), DELTA);
+        }
+
+        @Test
+        @DisplayName("zero dividido por qualquer número é zero")
+        void zeroDividedByAnythingIsZero() {
+            assertEquals(0, calculator.divide(0, 5), DELTA);
+        }
+
+        @Test
+        @DisplayName("divisão com resultado decimal")
+        void dividesWithDecimalResult() {
+            assertEquals(2.5, calculator.divide(5, 2), DELTA);
+            assertEquals(0.333333333, calculator.divide(1, 3), 1e-6);
+        }
+
+        @Test
+        @DisplayName("divisão por zero lança ArithmeticException")
+        void divisionByZeroThrows() {
+            ArithmeticException exception =
+                assertThrows(ArithmeticException.class, () -> calculator.divide(10, 0));
+
+            assertEquals("Divisão por zero não é permitida", exception.getMessage());
+        }
+
+        @Test
+        @DisplayName("zero dividido por zero também lança ArithmeticException")
+        void zeroByZeroThrows() {
+            assertThrows(ArithmeticException.class, () -> calculator.divide(0, 0));
         }
     }
 }
