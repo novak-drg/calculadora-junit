@@ -111,4 +111,54 @@ class CalculadoraTest {
             assertEquals(0, calculator.subtract(3.5, 3.5), DELTA);
         }
     }
+
+    @Nested
+    @DisplayName("Multiplicar")
+    class Multiply {
+
+        @Test
+        @DisplayName("multiplica dois números positivos")
+        void multipliesTwoPositives() {
+            assertEquals(12, calculator.multiply(3, 4), DELTA);
+        }
+
+        @Test
+        @DisplayName("positivo vezes negativo dá negativo")
+        void positiveTimesNegativeIsNegative() {
+            assertEquals(-12, calculator.multiply(3, -4), DELTA);
+            assertEquals(-12, calculator.multiply(-3, 4), DELTA);
+        }
+
+        @Test
+        @DisplayName("negativo vezes negativo dá positivo")
+        void negativeTimesNegativeIsPositive() {
+            assertEquals(12, calculator.multiply(-3, -4), DELTA);
+        }
+
+        @Test
+        @DisplayName("qualquer número vezes zero é zero")
+        void anythingTimesZeroIsZero() {
+            assertEquals(0, calculator.multiply(9, 0), DELTA);
+            assertEquals(0, calculator.multiply(0, -9), DELTA);
+            assertEquals(0, calculator.multiply(0, 0), DELTA);
+        }
+
+        @Test
+        @DisplayName("multiplicar por um não altera o valor")
+        void multiplyingByOneKeepsValue() {
+            assertEquals(-8.5, calculator.multiply(-8.5, 1), DELTA);
+        }
+
+        @ParameterizedTest(name = "{0} x {1} = {2}")
+        @CsvSource({
+            "2.5, 4, 10",
+            "0.5, 0.5, 0.25",
+            "-1.5, 2, -3",
+            "1000, 1000, 1000000"
+        })
+        @DisplayName("multiplica números decimais e grandes")
+        void multipliesDecimalsAndLargeNumbers(double a, double b, double expected) {
+            assertEquals(expected, calculator.multiply(a, b), DELTA);
+        }
+    }
 }
