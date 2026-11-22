@@ -63,4 +63,52 @@ class CalculadoraTest {
             assertEquals(expected, calculator.add(a, b), DELTA);
         }
     }
+
+    @Nested
+    @DisplayName("Subtrair")
+    class Subtract {
+
+        @Test
+        @DisplayName("subtrai dois números positivos")
+        void subtractsTwoPositives() {
+            assertEquals(6, calculator.subtract(10, 4), DELTA);
+        }
+
+        @Test
+        @DisplayName("resultado fica negativo quando o segundo número é maior")
+        void resultIsNegativeWhenSecondIsLarger() {
+            assertEquals(-6, calculator.subtract(4, 10), DELTA);
+        }
+
+        @Test
+        @DisplayName("subtrai dois números negativos")
+        void subtractsTwoNegatives() {
+            assertEquals(1, calculator.subtract(-2, -3), DELTA);
+        }
+
+        @Test
+        @DisplayName("subtrair um negativo equivale a somar")
+        void subtractingNegativeIsAdding() {
+            assertEquals(5, calculator.subtract(2, -3), DELTA);
+        }
+
+        @Test
+        @DisplayName("subtrair zero não altera o valor")
+        void subtractingZeroKeepsValue() {
+            assertEquals(7, calculator.subtract(7, 0), DELTA);
+        }
+
+        @Test
+        @DisplayName("zero menos um número inverte o sinal")
+        void subtractingFromZeroFlipsSign() {
+            assertEquals(-7, calculator.subtract(0, 7), DELTA);
+            assertEquals(7, calculator.subtract(0, -7), DELTA);
+        }
+
+        @Test
+        @DisplayName("um número menos ele mesmo é zero")
+        void numberMinusItselfIsZero() {
+            assertEquals(0, calculator.subtract(3.5, 3.5), DELTA);
+        }
+    }
 }
